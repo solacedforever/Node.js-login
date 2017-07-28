@@ -5,8 +5,11 @@
     <title></title>
   </head>
   <body>
-  <h1> WELCOME {{user}} {{name}} {{password}} </h1>
+    <h1 class="top"> Welcome, {{user}}. </h1>
+    <p>Please enjoy your stay at this quiet and relaxing website. </p>
     <img src="https://cdn.meme.am/cache/instances/folder202/61496202.jpg"img>
-    <button name="logout">Logout</button>
+    <form action = "/logout" method="POST">
+      <button name="logout">Logout</button>
+    </form>
   </body>
 </html>

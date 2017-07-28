@@ -3,6 +3,9 @@ const session = require('express-session');
 const mustacheExpress = require('mustache-express');
 const bodyParser = require('body-parser');
 var app = express();
+var userinfo =
+[{name : "ben", password : "whatisacode"},{name: "james",password:"james"},{name:"brian", password:"catsftw"}]
+
 // Configure mustache
 app.engine('mustache', mustacheExpress());
 app.set('views', './views');
@@ -41,17 +44,19 @@ app.get('/login', function (req, res) {
 });
 
 app.post('/login', function (req, res) {
-  let correctAnswer = "james";
-  if (req.body.name && req.body.password === correctAnswer) {
-    req.session.user = "james";
-    req.session.admin = true;
-    res.redirect('/content');
-  }
+  userinfo.forEach(function(element) {
+    if (req.body.name === element.name && req.body.password === element.password) {
+      req.session.user = element.name;
+      req.session.admin = true;
+      res.redirect('/content');
+    }
+  });
 });
 
 // // Get content endpoint
 app.get('/content', auth, function (req, res) {
-    res.render('content');
+
+    res.render('content', {user : req.session.user});
 });
 
 // Logout endpoint
@@ -61,5 +66,5 @@ app.post('/logout', function (req, res) {
 });
 
 app.listen(3000, function() {
-  console.log('Catch-a-Murray started on port 3000...');
+  console.log('Server started on port 3000...');
 });
